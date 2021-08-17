@@ -13,8 +13,8 @@ There is a call center in which there is a hierarchy of employees who can attend
 
 <h3>Customer Class :</h3>
 
-- Private Class Memebers :
-1. **id :** Customer id to uniquily identify customer of a call center.
+- Private Class Members :
+1. **id :** Customer id to uniquely identify customer of a call center.
 2. **name :** Customer name
 3. **phone_no :** Customer phone
 
@@ -28,7 +28,7 @@ There is a call center in which there is a hierarchy of employees who can attend
 <h3>Call Class :</h3>
 
 - Private Class Members :
-1. **id :** Call id to uniquily identify calls made to the call center. (int)
+1. **id :** Call id to uniquely identify calls made to the call center. (int)
 2. **location :** Location from which the call came from. (string)
 3. **duration :** Time (in minutes) till which the call will last. (int)
 4. **customer :** Stores the pointer to the customer who made the call. (Customer*)
@@ -54,12 +54,12 @@ There is a call center in which there is a hierarchy of employees who can attend
 <h3>Employee Class :</h3>
 
 - Private Class Members :
-1. **id :** Employee id that uniquly identifies the employee. (int)
+1. **id :** Employee id that uniquely identifies the employee. (int)
 2. **name :** Employee name. (string)
 3. **waiting_time :** Time in minutes till which the employee can attend a new call. (int)
 4. **calls :** queue which stores the pointer to the calls that an employee as to attend. (queue<Call*>)
 
-- Public Class Members : 
+- Public Class Members :
 1. **Employee() :** Default constructor, currently empty.
 2. **Employee(id, name) :** Constructor to initialize new employee.
 3. **getID() :** returns employee's id. (int)
@@ -71,19 +71,39 @@ There is a call center in which there is a hierarchy of employees who can attend
 9. **getCurrentCall() :** returns the pointer to call the employee is attending at the momement (Call*)
 10. **addCall(call) :** adds a new call to the employee's call queue by changing, adding into an employee's wait time.
 If call queue is empty the call status is ONGOING otherwise it is WAITING.
-11. **endCurrentCall() :** end the current call from top of the call queue. duration of the call is deduced from the waiting time of the employee, change status of the call and return true when this process iscsuccessful. False when it fails. (bool)
+11. **endCurrentCall() :** end the current call from top of the call queue. duration of the call is deduced from the waiting time of the employee, change status of the call and return true when this process is successful. False when it fails. (bool)
+
+<h3>Manager Class :</h3>
+- Private Class Members :
+
+- Public Class Members :
+1. **Manager(id, name) :** Calls the base class constructor of employee to initialize name and id.
 
 <h3>Lead Class :</h3>
 
+- Private Class Members :
+1. **manager :** Stores pointer to the manager who supervises the lead.
+2. **freshers :** Stores pointer to Freshers under the lead mapped to their id.
 
+- Public Class Members :
+1. **Lead(id, name, manager) :** Constructor that initializes name, id and manager info by calling the base constructor.
+2. **getFresher(fresher_id) :** Get pointer to the Fresher working directly under lead. (Fresher*)
+3. **getManager() :** Get pointer to the Manager working directly above lead (Manager*)
+4. **transferCall(call_duration) :** Transfer's call to lead's manager with the new call_duration of the transferred call.
+  - Store reference to the current call (call to transfer)
+  - End current call
+  - Update the duration of the call to transfer.
+  - Update the information call to the manager.
+  - Add call to the manager's queue.
+5. **addFresher(fresher) :** A friend function which adds a new fresher to the freshers map of the manager object.
 
-       
+<h3 Fresher Class :</h3>
 
+- Public Class Members :
+1. **lead :** Stores the pointer to the lead directly above the fresher.
 
-
-
-
-
-
-
- 
+- Private Class Members :
+1. **Fresher(id, name, lead) :** Constructor that initializes Fresher id, name by calling the base class constructor and assigning the lead as well as adding the fresher into the lead's map.
+2. **transferCall(call_duration) :** Transfer's call to Fresher's lead with the new call_duration of the transferred call.
+3. **getLead() :** get the pointer to the lead who supervises fresher.
+4. **addFresher(fresher) :** A friend function which adds a new fresher to the freshers map of the manager object.
